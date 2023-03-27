@@ -1,28 +1,34 @@
 pipeline {
     agent any
-    stages{
-        stage('Pull from github'){
-            steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/roiavivi/JB_Project_03.git']]])
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'The branch to checkout from GitHub')
+        string(name: 'DOCKER_IMAGE_TAG', defaultValue: 'devops-integration', description: 'The tag to use for the Docker image')
+        string(name: 'DOCKERHUB_USER', description: 'Docker Hub username')
+        password(name: 'DOCKERHUB_PWD', description: 'Docker Hub password')
+    }
+    stages {
+        stage('Pull from GitHub') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH}"]], userRemoteConfigs: [[url: 'https://github.com/roiavivi/JB_Project_03.git']]])
             }
         }
-        stage('Build docker image'){
-            steps{
-                script{
-                    sh 'docker build -t roie710/devops-integration .'
+        stage('Build Docker image') {
+            steps {
+                script {
+                    sh "docker build -t roie710/${params.DOCKER_IMAGE_TAG} ."
                 }
             }
         }
-        stage('Push image to Hub'){
-            steps{
-                script{
-                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                   sh 'docker login -u javatechie -p ${dockerhubpwd}'
-
-}
-                   sh 'docker push roie710/devops-integration'
-                }
-            }
-        }
+//         stage('Push image to Hub') {
+//             steps {
+//                 script {
+//                     withCredentials([string(credentialsId: 'DOCKERHUB_PWD', variable: 'dockerhubpwd'),
+//                                      string(credentialsId: 'DOCKERHUB_USER', variable: 'dockerhubuser')]) {
+//                         sh "docker login -u ${params.DOCKERHUB_USER} -p ${dockerhubpwd}"
+//                         sh "docker push roie710/${params.DOCKER_IMAGE_TAG}"
+//                     }
+//                 }
+//             }
+//         }
     }
 }

@@ -15,17 +15,15 @@ pipeline {
         stage('Build Docker image') {
             steps {
                 script {
-                    sh "docker build -t roie710/${params.DOCKER_IMAGE_TAG} ."
+                    docker.build("roie710/${params.DOCKER_IMAGE_TAG}")
                 }
             }
         }
 //         stage('Push image to Hub') {
 //             steps {
 //                 script {
-//                     withCredentials([string(credentialsId: 'DOCKERHUB_PWD', variable: 'dockerhubpwd'),
-//                                      string(credentialsId: 'DOCKERHUB_USER', variable: 'dockerhubuser')]) {
-//                         sh "docker login -u ${params.DOCKERHUB_USER} -p ${dockerhubpwd}"
-//                         sh "docker push roie710/${params.DOCKER_IMAGE_TAG}"
+//                     docker.withRegistry('https://registry.hub.docker.com', "${params.DOCKERHUB_USER}", "${params.DOCKERHUB_PWD}") {
+//                         docker.image("roie710/${params.DOCKER_IMAGE_TAG}").push()
 //                     }
 //                 }
 //             }

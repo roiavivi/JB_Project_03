@@ -3,8 +3,6 @@ pipeline {
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'The branch to checkout from GitHub')
         string(name: 'DOCKER_IMAGE_TAG', defaultValue: 'devops-integration', description: 'The tag to use for the Docker image')
-        string(name: 'DOCKERHUB_USER', description: 'Docker Hub username')
-        password(name: 'DOCKERHUB_PWD', description: 'Docker Hub password')
     }
     stages {
         stage('Pull from GitHub') {
@@ -14,19 +12,14 @@ pipeline {
         }
         stage('Build Docker image') {
             steps {
-                script {
-                    docker.build("roie710/${params.DOCKER_IMAGE_TAG}")
-                }
+                sh 'docker build -t roie710/${params.DOCKER_IMAGE_TAG} .'
             }
         }
         stage('Push image to Hub') {
             steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'mycreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        docker.withRegistry('https://registry.hub.docker.com', USERNAME, PASSWORD) {
-                            docker.image("roie710/${params.DOCKER_IMAGE_TAG}").push()
-                        }
-                    }
+                withCredentials([usernamePassword(credentialsId: 'mycreds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                    sh "docker push roie710/${params.DOCKER_IMAGE_TAG}"
                 }
             }
         }

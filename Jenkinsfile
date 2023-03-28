@@ -15,13 +15,13 @@ pipeline {
                 sh 'docker build -t roie710/${params.DOCKER_IMAGE_TAG} .'
             }
         }
-        stage('Push image to Hub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'mycreds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                    sh "docker push roie710/${params.DOCKER_IMAGE_TAG}"
-                }
-            }
-        }
+//         stage('Push image to Hub') {
+//             steps {
+//                 withCredentials([usernamePassword(credentialsId: 'mycreds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+//                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+//                     sh "docker push roie710/${params.DOCKER_IMAGE_TAG}"
+//                 }
+//             }
+//         }
     }
 }

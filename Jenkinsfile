@@ -19,14 +19,14 @@ pipeline {
                 }
             }
         }
-//         stage('Push image to Hub') {
-//             steps {
-//                 script {
-//                     docker.withRegistry('https://registry.hub.docker.com', "${params.DOCKERHUB_USER}", "${params.DOCKERHUB_PWD}") {
-//                         docker.image("roie710/${params.DOCKER_IMAGE_TAG}").push()
-//                     }
-//                 }
-//             }
-//         }
+        stage('Push image to Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', "${params.DOCKERHUB_USER}", "${params.DOCKERHUB_PWD}") {
+                        docker.image("roie710/${params.DOCKER_IMAGE_TAG}").push()
+                    }
+                }
+            }
+        }
     }
 }

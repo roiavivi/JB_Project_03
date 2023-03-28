@@ -13,7 +13,7 @@ pipeline {
     stage('Build Docker image') {
         steps {
             script {
-                def tag = "${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}"
+                def tag = "${BUILD_NUMBER}"
                 def image = docker.build("roie710/${params.DOCKER_IMAGE_TAG}")
                 // Tag the Docker image with the Jenkins build number
                 image.tag("roie710/${tag}")

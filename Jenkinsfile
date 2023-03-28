@@ -13,7 +13,7 @@ pipeline {
         stage('Build Docker image') {
             steps {
                 script {
-                    docker.build("roie710/${params.DOCKER_IMAGE_TAG}")
+                    docker.build("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}")
                 }
             }
         }

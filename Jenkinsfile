@@ -13,16 +13,21 @@ pipeline {
         stage('Build Docker image') {
             steps {
                 script {
-                    docker.build("roie710/${params.DOCKER_IMAGE_TAG}")
+                    def tag = "${params.DOCKER_IMAGE_TAG}:${env.BUILD_NUMBER}"
+                    def image = docker.build("roie710/${params.DOCKER_IMAGE_TAG}")
+                    // Tag the Docker image with the Jenkins build number
+                    docker.tag(image.id, "roie710/${tag}")
                 }
             }
         }
         stage('Push image to Hub') {
             steps {
                 script {
-                        docker.withRegistry('https://registry.hub.docker.com', 'mycreds') {
-                            docker.image("roie710/${params.DOCKER_IMAGE_TAG}").push()
-                        }
+                    docker.withRegistry('https://registry.hub.docker.com', 'mycreds') {
+                        // Push the Docker image with the Jenkins build number as the tag
+                        def tag = "${params.DOCKER_IMAGE_TAG}:${env.BUILD_NUMBER}"
+                        docker.image("roie710/${tag}").push()
+                    }
                 }
             }
         }

@@ -10,24 +10,19 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH}"]], userRemoteConfigs: [[url: 'https://github.com/roiavivi/JB_Project_03.git']]])
             }
         }
-    stage('Build Docker image') {
-        steps {
-            script {
-                def tag = "${BUILD_NUMBER}"
-                def image = docker.build("${params.DOCKER_IMAGE_TAG}")
-                // Tag the Docker image with the Jenkins build number
-                image.tag("roie710/${tag}")
+        stage('Build Docker image') {
+            steps {
+                script {
+                    docker.build("roie710/${params.DOCKER_IMAGE_TAG}")
+                }
             }
         }
-    }
         stage('Push image to Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'mycreds') {
-                        // Push the Docker image with the Jenkins build number as the tag
-                        def tag = "${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}"
-                        docker.image("roie710/${tag}").push()
-                    }
+                        docker.withRegistry('https://registry.hub.docker.com', 'mycreds') {
+                            docker.image("roie710/${params.DOCKER_IMAGE_TAG}").push()
+                        }
                 }
             }
         }

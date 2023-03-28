@@ -3,6 +3,8 @@ pipeline {
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'The branch to checkout from GitHub')
         string(name: 'DOCKER_IMAGE_TAG', defaultValue: 'devops-integration', description: 'The tag to use for the Docker image')
+        string(name: 'DOCKERHUB_USER', description: 'Docker Hub username')
+        password(name: 'DOCKERHUB_PWD', description: 'Docker Hub password')
     }
     stages {
         stage('Pull from GitHub') {

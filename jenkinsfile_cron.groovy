@@ -21,7 +21,7 @@ pipeline {
         stage('Run Docker image') {
             steps {
                 script {
-                    docker.image("roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}").inside()
+                    sh "docker run roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}"
                 }
             }
         }

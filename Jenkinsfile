@@ -27,5 +27,13 @@ pipeline {
                 }
             }
         }
+        stage('Clean All Docker Imange') {
+            steps {
+                script {
+                        sh 'docker rmi $(docker images -a -q)'
+                        }
+                }
+            }
+        }
     }
 }

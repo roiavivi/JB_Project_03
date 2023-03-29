@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         AWS_DEFAULT_REGION = 'eu-central-1'
+        CI_LAST_BUILD = Jenkins.instance.getItem('CI').lastSuccessfulBuild.number
     }
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'The branch to checkout from GitHub')
@@ -23,7 +24,9 @@ pipeline {
                       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]
                 ]) {
-                    sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}  roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}"
+                    //sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}  roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}"
+                    sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}  roie710/${params.DOCKER_IMAGE_TAG}:${CI_LAST_BUILD}"
+
                 }
             }
         }

@@ -23,7 +23,7 @@ pipeline {
                       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]
                 ]) {
-                    sh "docker run -it roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}"
+                    sh "docker run roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}"
                 }
             }
         }

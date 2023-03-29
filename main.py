@@ -26,7 +26,7 @@ def list_running_instances():
         ## Log instance information
         for reservation in instances['Reservations']:
             for instance in reservation['Instances']:
-                logger.info({
+                logger.debug({
                     "instance_id": instance['InstanceId'],
                     "instance_type": instance['InstanceType'],
                     "public_ip_address": instance.get('PublicIpAddress', 'N/A'),

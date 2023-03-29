@@ -3,11 +3,13 @@ import logging
 from pythonjsonlogger import jsonlogger
 
 logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 logHandler = logging.StreamHandler()
 formatter = jsonlogger.JsonFormatter()
 logHandler.setFormatter(formatter)
 logger.addHandler(logHandler)
+
 
 ec2 = boto3.client('ec2')
 
@@ -26,7 +28,7 @@ def list_running_instances():
         ## Log instance information
         for reservation in instances['Reservations']:
             for instance in reservation['Instances']:
-                logger.debug({
+                logger.info({
                     "instance_id": instance['InstanceId'],
                     "instance_type": instance['InstanceType'],
                     "public_ip_address": instance.get('PublicIpAddress', 'N/A'),
@@ -38,3 +40,6 @@ def list_running_instances():
 
     except Exception as e:
         logger.error(e)
+
+
+list_running_instances()

@@ -23,6 +23,7 @@ pipeline {
                       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]
                 ]) {
+                    export AWS_DEFAULT_REGION='eu-central-1'
                     sh "docker run roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}"
                 }
             }

@@ -14,7 +14,8 @@ pipeline {
         stage('Pull and Run Docker image') {
             steps {
                 script {
-                    docker.image("roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}").run()
+//                     docker.image("roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}").pull()
+                    docker.image("roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}").inside()
                 }
             }
         }

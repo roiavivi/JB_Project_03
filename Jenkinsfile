@@ -7,29 +7,51 @@ pipeline {
     stages {
         stage('Pull from GitHub') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH}"]], userRemoteConfigs: [[url: 'https://github.com/roiavivi/JB_Project_03.git']]])
+                try {
+                    checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH}"]], userRemoteConfigs: [[url: 'https://github.com/roiavivi/JB_Project_03.git']]])
+                } catch (err) {
+                    echo "Error: ${err}"
+                    currentBuild.result = 'FAILURE'
+                    error "Failed to pull from GitHub"
+                }
             }
         }
         stage('Build Docker image') {
             steps {
-                script {
-                    docker.build("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}")
+                try {
+                    script {
+                        docker.build("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}")
+                    }
+                } catch (err) {
+                    echo "Error: ${err}"
+                    currentBuild.result = 'FAILURE'
+                    error "Failed to build Docker image"
                 }
             }
         }
         stage('Push image to Hub') {
             steps {
-                script {
+                try {
+                    script {
                         docker.withRegistry('https://registry.hub.docker.com', 'mycreds') {
                             docker.image("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}").push()
                         }
+                    }
+                } catch (err) {
+                    echo "Error: ${err}"
+                    currentBuild.result = 'FAILURE'
+                    error "Failed to push image to Hub"
                 }
             }
         }
         stage('Clean All Docker Imange') {
             steps {
-                script {
-                        sh 'docker rmi -f $(docker images -a -q)'
+                try {
+                    sh 'docker rmi -f $(docker images -a -q)'
+                } catch (err) {
+                    echo "Error: ${err}"
+                    currentBuild.result = 'FAILURE'
+                    error "Failed to clean all Docker images"
                 }
             }
         }

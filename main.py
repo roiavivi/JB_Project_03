@@ -36,6 +36,6 @@ def list_running_instances():
         print(f"Error: {str(e)}")
 
 
-# if __name__ == "__main__":
-ec2 = boto3.client('ec2')
-list_running_instances()
+if __name__ == "__main__":
+    ec2 = boto3.client('ec2')
+    list_running_instances()

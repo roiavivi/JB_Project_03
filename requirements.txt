@@ -1,1 +1,2 @@
 boto3==1.26.87
+python-json-logger

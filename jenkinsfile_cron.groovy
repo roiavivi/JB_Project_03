@@ -15,15 +15,15 @@ pipeline {
             }
         }
         stage('Run Docker image') {
-            script{
-                steps {
-                    withCredentials([
-                        [ $class: 'AmazonWebServicesCredentialsBinding',
-                          credentialsId: 'aws-jenkins-demo',
-                          accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                          secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                        ]
-                    ]) {
+            steps {
+                withCredentials([
+                    [ $class: 'AmazonWebServicesCredentialsBinding',
+                      credentialsId: 'aws-jenkins-demo',
+                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]
+                ]) {
+                    script {
                         def jobName = 'CI'
                         def job = Jenkins.instance.getItemByFullName(jobName)
                         def lastCIBuild = job.getLastSuccessfulBuild()

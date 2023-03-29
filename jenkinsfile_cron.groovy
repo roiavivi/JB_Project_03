@@ -1,4 +1,4 @@
-import groovy.transform.NonCPS
+import jenkins.util.NonCPS
 
 pipeline {
     agent any

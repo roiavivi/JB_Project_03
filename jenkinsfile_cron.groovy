@@ -1,8 +1,3 @@
-def jobName = 'CI'
-def job = Jenkins.instance.getItemByFullName(jobName)
-def lastBuild = job.getLastSuccessfulBuild()
-
-
 pipeline {
     agent any
     environment {

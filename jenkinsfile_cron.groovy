@@ -3,7 +3,7 @@ pipeline {
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'The branch to checkout from GitHub')
         string(name: 'DOCKER_IMAGE_TAG', defaultValue: 'devops-integration', description: 'The tag to use for the Docker image')
-        string(name: 'BUILD_NUMBER', defaultValue: 'latest', description: 'The version for the Docker image')
+        string(name: 'IMAGE_VERSION', defaultValue: 'latest', description: 'The version for the Docker image')
     }
     stages {
         stage('Pull from GitHub') {
@@ -14,7 +14,7 @@ pipeline {
         stage('Pull Docker image') {
             steps {
                 script {
-                    docker.pull("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}")
+                    docker.pull("roie710/${params.DOCKER_IMAGE_TAG}:${IMAGE_VERSION}")
                 }
             }
         }

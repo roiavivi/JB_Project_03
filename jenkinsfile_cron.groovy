@@ -1,3 +1,7 @@
+def jobName = 'CI'
+def job = Jenkins.instance.getItemByFullName(jobName)
+def lastBuild = job.getLastSuccessfulBuild()
+
 pipeline {
     agent any
     environment {
@@ -23,7 +27,7 @@ pipeline {
                       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]
                 ]) {
-                    sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}  roie710/${params.DOCKER_IMAGE_TAG}:${lastBuild}"
+                    sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}  roie710/${params.DOCKER_IMAGE_TAG}:${env.lastBuild}"
                 }
             }
         }

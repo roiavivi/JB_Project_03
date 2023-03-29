@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        AWS_REGION = 'eu-central-1'
+        AWS_DEFAULT_REGION = 'eu-central-1'
     }
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'The branch to checkout from GitHub')

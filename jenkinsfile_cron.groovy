@@ -1,5 +1,3 @@
-import com.cloudbees.groovy.cps.NonCPS
-
 pipeline {
     agent any
     environment {
@@ -13,19 +11,13 @@ pipeline {
     stages {
         stage('Pull from GitHub') {
             steps {
-                git branch: "${params.BRANCH}", url: 'https://github.com/roiavivi/JB_Project_03.git'
+                git branch: params.BRANCH, url: 'https://github.com/roiavivi/JB_Project_03.git'
             }
         }
         stage('Run Docker image') {
             steps {
-                withCredentials([
-                    [ $class: 'AmazonWebServicesCredentialsBinding',
-                      credentialsId: 'aws-jenkins-demo',
-                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                    ]
-                ]) {
-                    runDockerImage(params.DOCKER_IMAGE_TAG)
+                withCredentials([awsCredentials(credentialsId: 'aws-jenkins-demo', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    runDockerImage(params.DOCKER_IMAGE_TAG, params.IMAGE_VERSION)
                 }
             }
         }
@@ -33,14 +25,10 @@ pipeline {
 }
 
 @NonCPS
-def runDockerImage(tag) {
-    def jobName = 'CI'
-    def job = Jenkins.instance.getItemByFullName(jobName)
+def runDockerImage(tag, version) {
+    def job = Jenkins.instance.getItemByFullName('CI')
     def lastCIBuild = job.getLastSuccessfulBuild()
-    if ("${params.IMAGE_VERSION}"=='latest') {
-        sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} roie710/${tag}:${lastCIBuild.number}"
-    }else {
-        sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} roie710/${tag}:${params.IMAGE_VERSION}"
 
-    }
+    def imageTag = version == 'latest' ? "${tag}:${lastCIBuild.number}" : "${tag}:${version}"
+    sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} roie710/${imageTag}"
 }

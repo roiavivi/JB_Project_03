@@ -13,7 +13,7 @@ def list_running_instances():
             ]
         )
 
-        # Print instance information
+        ## Print instance information
         for reservation in instances['Reservations']:
             for instance in reservation['Instances']:
                 print(f"Instance ID: {instance['InstanceId']}")

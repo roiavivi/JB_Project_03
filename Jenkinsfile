@@ -22,8 +22,8 @@ pipeline {
 
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
-                    docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_LATEST_TAG}")
+                    docker.build("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}")
+                    docker.build("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_LATEST_TAG}")
                 }
             }
         }
@@ -37,8 +37,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry(DOCKER_REGISTRY, DOCKER_CREDENTIALS_ID) {
-                        docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push()
-                        docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_LATEST_TAG}").push()
+                        docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}").push()
+                        docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_LATEST_TAG}").push()
                     }
                 }
             }

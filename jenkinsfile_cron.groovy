@@ -18,11 +18,11 @@ pipeline {
                     credentialsId: "aws-jenkins-demo",
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                    script{
-                        export AWS_REGION='eu-central-1'
-                        sh "docker run -it roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}"
-                    }
                 ]])
+                script{
+                    export AWS_REGION='eu-central-1'
+                    sh "docker run -it roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}"
+                }
             }
         }
     }

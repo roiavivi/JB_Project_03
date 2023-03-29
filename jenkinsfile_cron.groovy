@@ -1,4 +1,4 @@
-import jenkins.util.NonCPS
+import com.cloudbees.groovy.cps.NonCPS
 
 pipeline {
     agent any

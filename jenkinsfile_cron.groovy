@@ -11,13 +11,13 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH}"]], userRemoteConfigs: [[url: 'https://github.com/roiavivi/JB_Project_03.git']]])
             }
         }
-        stage('Pull Docker image') {
-            steps {
-                script {
-                    docker.image("roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}").pull()
-                }
-            }
-        }
+//         stage('Pull Docker image') {
+//             steps {
+//                 script {
+//                     docker.image("roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}").pull()
+//                 }
+//             }
+//         }
         stage('Run Docker image') {
             steps {
                 script {

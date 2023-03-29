@@ -1,3 +1,5 @@
+import com.cloudbees.groovy.cps.NonCPS
+
 pipeline {
     agent any
     environment {
@@ -11,12 +13,18 @@ pipeline {
     stages {
         stage('Pull from GitHub') {
             steps {
-                git branch: params.BRANCH, url: 'https://github.com/roiavivi/JB_Project_03.git'
+                git branch: "${params.BRANCH}", url: 'https://github.com/roiavivi/JB_Project_03.git'
             }
         }
         stage('Run Docker image') {
             steps {
-                withCredentials([awsCredentials(credentialsId: 'aws-jenkins-demo', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                withCredentials([
+                    [ $class: 'AmazonWebServicesCredentialsBinding',
+                      credentialsId: 'aws-jenkins-demo',
+                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]
+                ]) {
                     runDockerImage(params.DOCKER_IMAGE_TAG, params.IMAGE_VERSION)
                 }
             }

@@ -44,7 +44,7 @@ pipeline {
                 }
             }
         }
-        stage('Clean All Docker Imange') {
+        stage('Clean All Docker Images') {
             steps {
                 try {
                     sh 'docker rmi -f $(docker images -a -q)'

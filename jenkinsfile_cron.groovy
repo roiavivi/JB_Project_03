@@ -14,7 +14,7 @@ pipeline {
         stage('Pull Docker image') {
             steps {
                 script {
-                    docker.pull("roie710/${params.DOCKER_IMAGE_TAG}:${IMAGE_VERSION}")
+                    docker.pull("roie710/${params.DOCKER_IMAGE_TAG}:${params.IMAGE_VERSION}")
                 }
             }
         }

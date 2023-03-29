@@ -37,5 +37,10 @@ def runDockerImage(tag) {
     def jobName = 'CI'
     def job = Jenkins.instance.getItemByFullName(jobName)
     def lastCIBuild = job.getLastSuccessfulBuild()
-    sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} roie710/${tag}:${lastCIBuild.number}"
+    if ("${params.IMAGE_VERSION}"=='latest'): {
+        sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} roie710/${tag}:${lastCIBuild.number}"
+    }else {
+        sh "docker run --env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} roie710/${tag}:${params.IMAGE_VERSION}"
+
+    }
 }

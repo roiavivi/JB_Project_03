@@ -6,7 +6,7 @@ pipeline {
     agent any
     environment {
         AWS_DEFAULT_REGION = 'eu-central-1'
-        LAST_CI_BUILD = "${lastCIBuild}"
+        LAST_CI_BUILD = "${lastCIBuild.number}" // get build number
     }
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'The branch to checkout from GitHub')

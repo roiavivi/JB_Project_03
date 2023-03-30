@@ -29,14 +29,20 @@ def list_running_instances():
         for reservation in instances['Reservations']:
             for instance in reservation['Instances']:
                 logger.info({
-                    "instance_id": instance['InstanceId'],
-                    "instance_type": instance['InstanceType'],
-                    "public_ip_address": instance.get('PublicIpAddress', 'N/A'),
+                    "instance_id":
+                        instance['InstanceId'],
+                    "instance_type":
+                        instance['InstanceType'],
+                    "public_ip_address":
+                        instance.get('PublicIpAddress', 'N/A'),
                     "private_ip_address":
                         instance['PrivateIpAddress'],
-                    "availability_zone": instance['Placement']['AvailabilityZone'],
-                    "state": instance['State']['Name'],
-                    "tags": instance.get('Tags', [])
+                    "availability_zone":
+                        instance['Placement']['AvailabilityZone'],
+                    "state":
+                        instance['State']['Name'],
+                    "tags":
+                        instance.get('Tags', [])
                 })
 
     except Exception as e:

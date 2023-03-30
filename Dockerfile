@@ -17,6 +17,3 @@ COPY --from=builder /code/*.py ./
 COPY --from=builder /code/requirements.txt ./
 RUN pip install -r requirements.txt
 CMD ["python", "main.py"]
-
-# Add the ci_default network
-CMD ["--network", "ci_ci_default"]

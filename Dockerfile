@@ -3,8 +3,7 @@ WORKDIR /code
 COPY pylint.cfg /etc/pylint.cfg
 COPY *.py ./
 COPY requirements.txt ./
-# Run pylint with errors-only and exit-zero options
-RUN ["/docker-entrypoint.sh", "pylint", "--errors-only", "--exit-zero"]
+RUN ["/docker-entrypoint.sh", "pylint"]
 
 
 FROM python:3.10.0-alpine as serve

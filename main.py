@@ -1,5 +1,5 @@
-import boto3
 import logging
+import boto3
 from pythonjsonlogger import jsonlogger
 
 logger = logging.getLogger()
@@ -32,7 +32,8 @@ def list_running_instances():
                     "instance_id": instance['InstanceId'],
                     "instance_type": instance['InstanceType'],
                     "public_ip_address": instance.get('PublicIpAddress', 'N/A'),
-                    "private_ip_address": instance['PrivateIpAddress'],
+                    "private_ip_address":
+                        instance['PrivateIpAddress'],
                     "availability_zone": instance['Placement']['AvailabilityZone'],
                     "state": instance['State']['Name'],
                     "tags": instance.get('Tags', [])

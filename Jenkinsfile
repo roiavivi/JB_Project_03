@@ -19,20 +19,17 @@ pipeline {
             }
         }
         stage('Build Docker image') {
-          steps {
-            script{
-              try {
-              sh """
-                docker buildx create --name my-builder --driver docker-container --use --buildkitd-flags '--network ci_ci_default'
-                docker buildx build --builder my-builder -t roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER} .
-              """
-              } catch (err) {
-                echo "Error: ${err}"
-                currentBuild.result = 'FAILURE'
-                error "Failed to build Docker image"
-              }
+            steps {
+                script{
+                    try {
+                         docker.build("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}")
+                    } catch (err) {
+                        echo "Error: ${err}"
+                        currentBuild.result = 'FAILURE'
+                        error "Failed to build Docker image"
+                    }
+                }
             }
-          }
         }
         stage('Push image to Hub') {
             steps {

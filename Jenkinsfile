@@ -9,10 +9,7 @@ pipeline {
             steps {
                 script{
                     try {
-                        docker.networks.create('ci_ci_bridge')
-                        docker.withNetwork('ci_ci_bridge') {
-                            docker.build("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}")
-                        }
+                        checkout([$class: 'GitSCM', branches: [[name: "${params.BRANCH}"]], userRemoteConfigs: [[url: 'https://github.com/roiavivi/JB_Project_03.git']]])
                     } catch (err) {
                         echo "Error: ${err}"
                         currentBuild.result = 'FAILURE'
@@ -25,7 +22,8 @@ pipeline {
             steps {
                 script{
                     try {
-                         docker.build("--network ci_ci_bridge roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}")
+                        sh "docker build -t roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER} --network ci_ci_default ."
+                         //docker.build("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}")
                     } catch (err) {
                         echo "Error: ${err}"
                         currentBuild.result = 'FAILURE'

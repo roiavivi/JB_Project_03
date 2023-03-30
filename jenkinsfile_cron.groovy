@@ -10,6 +10,9 @@ pipeline {
         string(name: 'DOCKER_IMAGE_TAG', defaultValue: 'devops-integration', description: 'The tag to use for the Docker image')
         string(name: 'IMAGE_VERSION', defaultValue: 'latest', description: 'The version for the Docker image')
     }
+    triggers {
+        cron('*/5 * * * *')
+    }
     stages {
         stage('Pull from GitHub') {
             steps {

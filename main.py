@@ -33,10 +33,12 @@ def list_running_instances():
                         instance['InstanceId'],
                     "instance_type":
                         instance['InstanceType'],
-                    "public_ip_address": instance.get('PublicIpAddress', 'N/A'),
+                    "public_ip_address":
+                        instance.get('PublicIpAddress', 'N/A'),
                     "private_ip_address":
                         instance['PrivateIpAddress'],
-                    "availability_zone": instance['Placement']['AvailabilityZone'],
+                    "availability_zone":
+                        instance['Placement']['AvailabilityZone'],
                     "state":
                         instance['State']['Name'],
                     "tags":

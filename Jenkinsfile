@@ -18,6 +18,21 @@ pipeline {
                 }
             }
         }
+        stage('Apply SonarQube') {
+            steps {
+                script{
+                    try {sh """
+                        chmod +x docker-compose.yml
+                        docker-compose up -d
+                    """
+                    } catch (err) {
+                        echo "Error: ${err}"
+                        currentBuild.result = 'FAILURE'
+                        error "Failed to build Docker image"
+                    }
+                }
+            }
+        }
         stage('Build Docker image') {
             steps {
                 script{

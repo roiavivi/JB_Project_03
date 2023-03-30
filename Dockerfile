@@ -3,9 +3,7 @@ WORKDIR /code
 COPY pylint.cfg /etc/pylint.cfg
 COPY *.py ./
 COPY requirements.txt ./
-RUN set -eux; \
-    /docker-entrypoint.sh pylint && \
-    exit 0
+RUN ["/docker-entrypoint.sh", "pylint", "exit 0"]
 
 
 FROM python:3.10.0-alpine as serve

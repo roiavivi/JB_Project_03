@@ -1,4 +1,4 @@
-FROM pylint:latest as builder
+FROM eeacms/pylint:latest as builder
 WORKDIR /code
 COPY pylint.cfg /etc/pylint.cfg
 COPY *.py ./

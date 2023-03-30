@@ -5,7 +5,8 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 logHandler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter\
+    ('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logHandler.setFormatter(formatter)
 logger.addHandler(logHandler)
 
@@ -27,7 +28,8 @@ def list_running_instances():
         for reservation in instances['Reservations']:
             for instance in reservation['Instances']:
                 logger.info(
-                    "Instance ID: %s, Type: %s, Public IP: %s, Private IP: %s, Zone: %s, State: %s, Tags: %s",
+                    "Instance ID: %s, Type: %s, Public IP: %s, "
+                    "Private IP: %s, Zone: %s, State: %s, Tags: %s",
                     instance['InstanceId'],
                     instance['InstanceType'],
                     instance.get('PublicIpAddress', 'N/A'),

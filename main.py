@@ -41,5 +41,5 @@ def list_running_instances():
         logger.error(e)
 
 
-if __name__ == '__main__' :
+if __name__ == '__main__':
     list_running_instances()

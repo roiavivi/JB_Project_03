@@ -23,7 +23,7 @@ pipeline {
                 script{
                     try {sh """
                         chmod +x docker-compose.yml
-                        docker-compose up -d
+                        docker compose up -d
                     """
                     } catch (err) {
                         echo "Error: ${err}"

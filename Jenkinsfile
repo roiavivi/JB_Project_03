@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script{
                     try {
-                         docker.build("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER} --network ci_nexus")
+                         docker.build("roie710/${params.DOCKER_IMAGE_TAG}:${BUILD_NUMBER}")
                     } catch (err) {
                         echo "Error: ${err}"
                         currentBuild.result = 'FAILURE'

@@ -14,7 +14,7 @@ Installation:
 
 2. Create two piplines: 
 - CI Pipeline (convert our app to a docker image test it and push it to DockerHub )
-- cron Pipeline (pull the docker image and run the app to scan AWS EC2 for running instances)
+- Cron Pipeline (pull the docker image and run the app to scan AWS EC2 for running instances)
 
 CI Pipeline 
 

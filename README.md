@@ -27,7 +27,7 @@ CI Pipeline
     In addition, the pipeline includes a "parameters" section that allows the user to specify the branch to checkout from GitHub and the Docker image tag to use. 
     The pipeline also includes a "post" section that ensures the workspace is cleaned up after the pipeline is run, regardless of success or failure.
 
-cron Pipeline
+Cron Pipeline
 
     Pull from GitHub: This stage uses the Git plugin to checkout a specified branch from a GitHub repository.
     Run Docker image: This stage runs a Docker image using a custom Groovy function called runDockerImage(), 
